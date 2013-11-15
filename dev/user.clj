@@ -10,7 +10,8 @@
    [clojure.set :as set]
    [clojure.string :as str]
    [clojure.test :as test]
-   [clojure.tools.namespace.repl :refer (refresh refresh-all)]))
+   [clojure.tools.namespace.repl :refer (refresh refresh-all)]
+   [rpq.system :as system]))
 
 (def system
   "A Var containing an object representing the application under
@@ -21,21 +22,18 @@
   "Creates and initializes the system under development in the Var
   #'system."
   []
-  ;; TODO
-  )
+  (alter-var-root #'system (constantly (system/system))))
 
 (defn start
   "Starts the system running, updates the Var #'system."
   []
-  ;; TODO
-  )
+  (alter-var-root #'system system/start))
 
 (defn stop
   "Stops the system if it is currently running, updates the Var
   #'system."
   []
-  ;; TODO
-  )
+  (alter-var-root #'system (fn [s] (when s (system/stop s)))))
 
 (defn go
   "Initializes and starts the system running."
@@ -48,5 +46,4 @@
   "Stops the system, reloads modified source files, and restarts it."
   []
   (stop)
-  (refresh :after 'user/go))
-
+  (refresh :after 'user/go))

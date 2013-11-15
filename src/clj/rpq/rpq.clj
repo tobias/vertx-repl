@@ -12,8 +12,10 @@
   (vertx/set-vertx! (vertx/vertx))
   (let [latch (CountDownLatch. 1)]
     (-> (http/server)
-      (http/on-request req-handler)
-      (http/listen 4000 "localhost"))
+        (http/on-request req-handler)
+        (http/listen 4000 "localhost"))
     (println "Yo!")
     (.await latch)))
+
+
 
