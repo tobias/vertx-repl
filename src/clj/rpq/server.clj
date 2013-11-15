@@ -1,28 +1,20 @@
 (ns rpq.server
-  (:require [vertx.http :as http]
-            [vertx.embed :as vertx]
-            [clojure.core.async :as async])
-  (:import java.util.concurrent.CountDownLatch))
+  (:require [rpq.http :as http]))
 
 (defn server []
-  (vertx/set-vertx! (vertx/vertx))
+  (http/init-server)
   {})
 
-(defn req-handler [req]
-  (-> (http/server-response req)
-      (http/end "Hello from Vert.x!")))
-
 (defn start [s]
-  (let [http-server
-        (-> (http/server)
-            (http/on-request req-handler)
-            (http/listen 4000 "localhost"))]
+  (let [http-server (http/start-server)]
     (assoc s :server http-server)))
 
 (defn stop [s]
   (when s
     (let [http-server (:server s)]
-      (.close http-server))
-    s))
+      (http/stop-server http-server))
+    nil))
+
+
 
 
