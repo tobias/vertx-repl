@@ -1,19 +1,15 @@
 (ns rpq.http
-  (:require [vertx.embed :as vertx]
-            [vertx.http :as http]
-            [vertx.core :as core]))
+  (:require [vertx.core :as vertx]
+            [vertx.http :as http]))
 
-(defn init-server []
-  (vertx/set-vertx! (vertx/vertx)))
-
-(defn req-handler [req]
+(defn- req-handler [req]
   (-> (http/server-response req)
-      (http/end "Hello from Vert.x!!!")))
+      (http/end "Hello from vert.x!")))
 
-(defn start-server []
+(defn init
+  []
   (-> (http/server)
       (http/on-request req-handler)
-      (http/listen 4000 "localhost")) )
+      (http/listen 8080)))
 
-(defn stop-server [server]
-  (http/close server))
+
