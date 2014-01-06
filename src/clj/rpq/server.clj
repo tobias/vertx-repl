@@ -12,14 +12,15 @@
         urlvector (map #(.toURL (.toURI (File. %))) cp)
         urlarray (into-array urlvector)
         pm (.createPlatformManager (PlatformLocator/factory))]
-    ;; (.deployModuleFromClasspath pm "rpquest~rpq~1.0" nil 1 urlarray nil)
-    (.deployVerticle pm "clojure:runner.clj" nil urlarray 1 "io.vertx~mod-mysql-postgresql~0.2.0" nil)
+    (.deployVerticle pm "clojure:runner.clj" nil urlarray 1 nil nil)
     (assoc s :pm pm)))
 
 (defn stop [s]
   (when s
     (let [pm (:pm s)]
-      (.stop pm))
+      (.undeployAll pm nil))
     nil))
+
+
 
 
