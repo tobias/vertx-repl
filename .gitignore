@@ -3,7 +3,6 @@
 /classes
 /checkouts
 /mods
-/vertx
 pom.xml
 pom.xml.asc
 *.jar
