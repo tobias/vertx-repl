@@ -7,12 +7,11 @@
   {})
 
 (defn start [s]
-  (System/setProperty "vertx.langs.clojure" "io.vertx~lang-clojure~0.5.0-SNAPSHOT:io.vertx.lang.clojure.ClojureVerticleFactory")
   (let [cp ["src/clj" "vertx"]
         urlvector (map #(.toURL (.toURI (File. %))) cp)
         urlarray (into-array urlvector)
         pm (.createPlatformManager (PlatformLocator/factory))]
-    (.deployVerticle pm "clojure:runner.clj" nil urlarray 1 nil nil)
+    (.deployModuleFromClasspath pm "rpquest~rpq~1.0" nil 1 urlarray nil)
     (assoc s :pm pm)))
 
 (defn stop [s]
@@ -20,7 +19,3 @@
     (let [pm (:pm s)]
       (.undeployAll pm nil))
     nil))
-
-
-
-
